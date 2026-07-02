@@ -1,26 +1,35 @@
 import { useState } from "react";
-import api from "../API";
 import type { Message } from "../types/message";
+import { useApiMutation } from "./Api/useApiMutation";
 
+interface ChatRequest {
+  message: string;
+}
+
+interface ChatResponse {
+  reply: string;
+}
 
 export function useChat() {
   const [messages, setMessages] = useState<Message[]>([]);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
+
+  const { mutate, loading, error } =
+    useApiMutation<ChatRequest, ChatResponse>(
+      "/api/aiChat",
+      "post",
+      undefined,
+      "Failed to send message"
+    );
 
   const sendMessage = async (message: string) => {
     setMessages((prev) => [...prev, { sender: "user", text: message }]);
-    setLoading(true);
-    setError(null);
 
     try {
-      const res = await api.post("/api/aiChat", { message });
-      setMessages((prev) => [...prev, { sender: "ai", text: res.data.reply }]);
-    } catch (err: any) {
-      setError(err.message || "Something went wrong");
-    } finally {
-      setLoading(false);
-    }
+      const res = await mutate({ message });
+      setMessages((prev) => [...prev, { sender: "ai", text: res.reply }]);
+    } catch {
+      //API handles error xoxo
+        }
   };
 
   return { sendMessage, messages, loading, error };

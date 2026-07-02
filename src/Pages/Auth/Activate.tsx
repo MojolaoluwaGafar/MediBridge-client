@@ -7,32 +7,37 @@ import { FaArrowRight } from "react-icons/fa6";
 import { Link, useNavigate } from 'react-router'
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { registerSchema, type RegisterInput } from '../../Validation/registerSchema'
-import { useVerifyUser } from '../../Hooks/useVerifyUser'
+import { VerifyUserSchema, type VerifyUserInput } from '../../Validation/ActivationSchema'
+import { useVerifyUser } from '../../Hooks/Auth/useVerifyUser'
 import { showToast } from "../../utils/toastHelper";
 
-export default function SignUp() {
-    const { register, handleSubmit, formState : { errors }, reset } = useForm<RegisterInput>({
-        resolver : zodResolver(registerSchema)
+export default function Activate() {
+    const { register, handleSubmit, formState : { errors }, reset } = useForm<VerifyUserInput>({
+        resolver : zodResolver(VerifyUserSchema)
     })
 
-    const { verifyUser, loading, error, success} = useVerifyUser()
+    const { verifyUser, loading, error} = useVerifyUser()
 
     const navigate = useNavigate()
 
-    const submit = async (formData : RegisterInput)=>{
+    const submit = async (formData : VerifyUserInput)=>{
         try {
             const result = await verifyUser(formData);
             localStorage.setItem("verificationToken", result.token)
             console.log("ID Verification success :", result);
-            showToast(success.message || "Verification code sent to your email", "success")
+            showToast(result.message || "Verification code sent to your email", "success")
             reset()
-            navigate("/verifySignUp")
-        } catch (err) {
-            console.error("ID Verification error:", err, error)
-            showToast(error || "ID Verification failed", "error")
+            navigate("/verifyActivation", { state : {
+                email : result.user.email,
+                expiresAt : result.expiresAt
+            }})
+        } catch (err : any) {
+            const message = err.response?.data?.error || err.response?.data?.message || error || "ID Verification failed";
+            console.error("ID Verification error:", message )
+            showToast(message, "error")
         }     
     }
+
   return (
     <RegisterLayout image={image} subHeading="Manage appointments, view medical information, chat with your care team, and receive support in one place." heading="Access your care anytime"
     ul={<ul className="flex flex-col gap-3">
@@ -64,11 +69,11 @@ export default function SignUp() {
             {errors.Email && <p className='text-red-500'>{errors.Email.message}</p>}
 
 
-            <label className="py-2 font-semibold" htmlFor="number">Registered Phone Number Address</label>
+            <label className="py-2 font-semibold" htmlFor="number">Registered Phone Number</label>
             <Input {...register("RegisteredNumber")} id='number' className='my-3' type='tel' placeholder='(+234) 000-0000' />
             {errors.RegisteredNumber && <p className='text-red-500'>{errors.RegisteredNumber.message}</p>}
 
-            <Button className='my-4' type='submit' content={ loading ? "Verifying..." : <span className='flex items-center gap-2 justify-center'>Verify identity<FaArrowRight /></span>} />
+            <Button disabled={loading} className='my-4' type='submit' content={ loading ? "Verifying..." : <span className='flex items-center gap-2 justify-center'>Verify identity<FaArrowRight /></span>} />
 
             <h1 className="text-center text-[#757575] text-[18px]">Already have an account? <Link to="/login"><span className='text-[#28574E]'>Log In</span></Link></h1>
 

@@ -78,3 +78,11 @@
 .fontOutfit{
   font-family: "Outfit", sans-serif;
 }
+
+.custom-checkbox {
+  accent-color: green; 
+}
+
+.custom-checkbox:checked {
+  color: white;
+}

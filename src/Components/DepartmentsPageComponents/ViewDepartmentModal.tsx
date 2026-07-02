@@ -13,7 +13,7 @@ export default function ViewDepartmentModal({
  }: ViewDeparmentModal & { onClose : ()=> void}) {
   return (
     <div className='fixed inset-0 bg-black/50 z-50 flex items-center justify-center h-screen'>
-        <div className='w-120 overflow-y-hidden relative rounded-lg bg-white'>
+        <div className='w-120 overflow-y-scroll scrollbar-none relative rounded-lg bg-white h-[90%]'>
       <h1 className='text-[#28574E] text-[32px] font-semibold fontLibre flex items-center gap-2 pt-5 pb-2 px-5'><span>
         <Icon size={32} />
       </span>{field}</h1>

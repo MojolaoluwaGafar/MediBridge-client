@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import RegisterLayout from '../../Layout/RegisterLayout'
 import Input from '../../Components/Input'
 import { Link, useNavigate } from 'react-router'
@@ -5,16 +6,20 @@ import Button from '../../Components/Button'
 import Image from "../../assets/Frame 2121455033 (1).svg"
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { setPasswordSchema, type SetPasswordInput } from '../../Validation/registerSchema'
-import { useSetPassword } from '../../Hooks/useSetPassword'
+import { setPasswordSchema, type SetPasswordInput } from '../../Validation/ActivationSchema'
+import { useSetPassword } from '../../Hooks/Auth/useSetPassword'
 import { showToast } from '../../utils/toastHelper'
+import { Eye, EyeOff } from 'lucide-react'
 
 export default function SetPassword() {
+    const [showPassword, setShowPassword] = useState<boolean>(false)
+    const [showCPassword, setShowCPassword] = useState<boolean>(false)
+
     const { register, handleSubmit, formState : { errors}, reset} = useForm<SetPasswordInput>({
         resolver : zodResolver(setPasswordSchema)
     })
 
-    const { setPassword, loading, error, success } = useSetPassword()
+    const { setPassword, loading, error } = useSetPassword()
     
     const navigate = useNavigate()
 
@@ -22,17 +27,34 @@ export default function SetPassword() {
         try {
             const result = await setPassword(formData);
             console.log("Password set successfully :", result);
+            if (result) {
             localStorage.setItem("authenticationToken", result.token)
-            showToast(success.message || "Password set successfully", "success");
+            localStorage.setItem("user", JSON.stringify(result.user))  
+            }
+            showToast(result.message || "Password set successfully", "success");
             reset()
-            navigate("/patientDashboard")
+            navigate("/patientDashboard", { state : {
+                firstname : result.user.firstname,
+                lastname : result.user.lastname,
+                email : result.user.email,
+            }})
         } catch (err) {
             console.error("Set Password error:", err, error)
             showToast(error || "Failed to set password", "error");
         }
     }
+    
+    const togglePassword = (e : React.MouseEvent<HTMLButtonElement>)=>{
+        e.preventDefault();
+        setShowPassword(prev => !prev);
+    }
 
-  return (
+    const toggleCPassword = (e : React.MouseEvent<HTMLButtonElement>)=>{
+        e.preventDefault();
+        setShowCPassword(prev => !prev);
+    }
+    
+    return (
     <RegisterLayout heading='Secure Your Access' subHeading='Your health data is protected with industry-leading encryption. Step 3 of 3: finalise your security credentials.' image={Image}>
         <form onSubmit={handleSubmit(submit)} className='border border-[#D1D5D5] rounded-xl w-full p-8'>
             <div className='flex items-center justify-between'>
@@ -46,10 +68,23 @@ export default function SetPassword() {
         <p className="pb-5 text-[#757575] text-[18px]">finalise your security credentials.</p>
 
         <label className="text-[18px] font-semibold" htmlFor="newPassword">Password</label>
-        <Input {...register("newPassword")} id='newPassword' type='password' placeholder='Enter your new password' className='my-2'  />
-        {errors.newPassword && <p className='text-red-500'>{errors.newPassword.message}</p>}
+        <div className='relative'>
+            <Input {...register("password")} id='newPassword' type='password' placeholder='Enter your new password' className='my-2'  />
+            <button type="button" onClick={togglePassword} 
+            className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500">
+                {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
+            </button>
+        </div>
+        {errors.password && <p className='text-red-500'>{errors.password.message}</p>}
         <label  className="text-[18px] font-semibold" htmlFor="confirmPassword">Confirm Password</label>
-        <Input {...register("confirmPassword")} id='confirmPassword' type='password' placeholder='Confirm your password' className='my-2'  />
+
+        <div className='relative'>
+            <Input {...register("confirmPassword")} id='confirmPassword' type='password' placeholder='Confirm your password' className='my-2'  />
+            <button type="button" onClick={toggleCPassword} 
+            className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500">
+                {showCPassword ? <EyeOff size={20} /> : <Eye size={20} />}
+            </button>
+        </div>
         {errors.confirmPassword && <p className='text-red-500'>{errors.confirmPassword.message}</p>}
 
         <div className='flex gap-2 items-center py-2'>
@@ -59,7 +94,7 @@ export default function SetPassword() {
         {errors.terms && <p className='text-red-500'>{errors.terms.message}</p>}
 
         <Button className='my-5' type='submit' content={loading ? "Activating..." : "Activate Account"}
-          disabled={loading} />
+        disabled={loading} />
 
         <p className='pt-8 text-center'>Need help? <Link to=""><span className='text-[#28574E] font-semibold'>Contact Support</span></Link></p>
         </form>

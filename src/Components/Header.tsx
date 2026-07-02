@@ -2,6 +2,7 @@ import React from 'react'
 import Logo from "../assets/MediBridgeLogo.svg"
 import { NavLink, Link } from 'react-router'
 import Button from './Button'
+import { useAuth } from '../Hooks/Auth/useAuth'
 
 type Props = {
     className?: string,
@@ -11,23 +12,51 @@ type Props = {
     others?: React.ReactNode
 }
 
+const navLinks = [
+    {
+        to: "/",
+        label: "Home",
+    },
+    {
+        to: "/departments",
+        label: "Departments",
+     },
+    {
+        to: "/support",
+        label: "AI Support",
+    },
+    {
+        to: "/about",
+        label: "About Us",
+    },
+];
+
 export default function Header({className, heading,subHeading,others, image}: Props) {
+    const { isAuthenticated } = useAuth();
+
+
   return (
     <div className={`${className} relative px-20 py-5 w-full`}>
        <div className="mx-auto container">
-         <nav className="bg-white rounded-full flex justify-between items-center px-10 h-20">
+        <nav className="bg-white rounded-full flex justify-between items-center px-10 h-20">
             <Link to="/"><img src={Logo} alt="" /></Link>
             
             <div className='flex gap-5 items-center fontOutfit'>
-                <NavLink to="/" className={({isActive})=> isActive ? "text-[18px] text-[#28574E] font-semibold" : "text-[18px]"}><p className="text-[18px]">Home</p></NavLink>
-                <NavLink to="/departments" className={({isActive})=> isActive ? "text-[18px] text-[#28574E] font-semibold" : "text-[18px]"}><p className="text-[18px]">Departments</p></NavLink>
-                <NavLink to="/support" className={({isActive})=> isActive ? "text-[18px] text-[#28574E] font-semibold" : "text-[18px]"}><p className="text-[18px]">AI Support</p></NavLink>
-                <NavLink to="/about" className={({isActive})=> isActive ? "text-[18px] text-[#28574E] font-semibold" : "text-[18px]"}><p className="text-[18px]">About Us</p></NavLink>
+                {navLinks.map(({to,label})=>{
+                    return <NavLink
+                    key={to} to={to} className={({isActive})=> isActive ? "text-[18px] text-[#28574E] font-semibold" : "text-[18px]"}>
+                        <p className='text-[18px]'>{label}</p>
+                    </NavLink>
+                })}
             </div>
 
+           {isAuthenticated ? 
+           <Link to="/patientDashboard"><Button className="px-4 fontOutfit" type='button' content="Go to dashboard" /></Link>
+            : 
             <div className='flex items-center gap-2'>
                 <Link to="/login"><button type='button' className="text-[#28574E] text-[18px] fontOutfit border-0 h-13 font-semibold">Login</button></Link>
-                <Link to="/signUp"><Button className="px-4 fontOutfit" type='button' content="Activate Account" /></Link>            </div>
+                <Link to="/activate"><Button className="px-4 fontOutfit" type='button' content="Activate Account" /></Link>
+            </div>} 
         </nav>
 
         <div className='flex flex-col items-center justify-center py-25 w-195 mx-auto text-center gap-3'>

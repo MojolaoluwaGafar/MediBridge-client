@@ -4,7 +4,9 @@ import firstAid from "./assets/Icon (2).svg";
 import icon from "./assets/Icon (1).svg";
 import type { IDepCard } from './types/department';
 import type { ViewDeparmentModal } from "./types/department"
-
+import CardiologyImg from "./assets/heart.png"
+import NeurologyImg from "./assets/BRAIN.png"
+import type { IDoctor } from './types/doctor';
 
 export const departments : IDepCard[] = [
   {
@@ -111,7 +113,7 @@ export const departmentDetails : ViewDeparmentModal[] = [
     id: 1,
     icon: Heart,
     field: "Cardiology",
-    image: "/images/cardiology.jpg",
+    image: CardiologyImg,
     overview: "Our cardiology department provides comprehensive care for heart and vascular conditions.",
     services: ["ECG", "Echocardiogram", "Stress Test", "Cardiac Catheterization"]
   },
@@ -119,7 +121,7 @@ export const departmentDetails : ViewDeparmentModal[] = [
     id: 2,
     icon: Brain,
     field: "Neurology",
-    image: "/images/neurology.jpg",
+    image: NeurologyImg,
     overview: "We diagnose and treat disorders of the brain, spinal cord, and nerves.",
     services: ["EEG", "MRI Scan", "Stroke Management", "Epilepsy Treatment"]
   },
@@ -148,3 +150,72 @@ export const departmentDetails : ViewDeparmentModal[] = [
     services: ["X-Ray", "Ultrasound", "Blood Tests", "CT Scan"]
   }
 ]
+
+
+export const doctors: IDoctor[] = [
+        {
+            _id : 1,
+            docImg: "/images/amelia.png",
+            docName: "Dr. Amelia Chen",
+            department: "Cardiology",
+            YOE: 14,
+            availability: true,
+            about: "Dr. Chen is a board-certified cardiologist with over 14 years of experience in interventional cardiology. He specializes in complex coronary interventions and heart failure",
+            availableTime: [
+                { day: "Monday", start: "10:00 AM", end: "4:00 PM" },
+                { day: "Wednesday", start: "10:00 AM", end: "4:00 PM" }
+            ]
+        },
+        {
+            _id : 2,
+            docImg: "/images/blessing.png",
+            docName: "Dr. Blessing Friday",
+            department: "Pediatrics",
+            YOE: 10,
+            availability: false,
+            about: "Dr. Friday is a board-certified Pediatric with over 10 years of experience...",
+            availableTime: [
+                { day: "Monday", start: "10:00 AM", end: "4:00 PM" },
+                { day: "Wednesday", start: "10:00 AM", end: "4:00 PM" }
+            ]
+        },
+        {
+            _id : 3,
+            docImg: "/images/blessing.png",
+            docName: "Dr. West.",
+            department: "Pediatrics",
+            YOE: 14,
+            availability: true,
+            about: "Dr. West is a board-certified Pediatric with over 14 years of experience...",
+            availableTime: [
+                { day: "Monday", start: "12:00 PM", end: "4:00 PM" },
+                { day: "Wednesday", start: "14:00 PM", end: "4:00 PM" }
+            ]
+        },
+        {
+            _id : 4,
+            docImg: "/images/amelia.png",
+            docName: "Dr. Angela Chan",
+            department: "Neurology",
+            YOE: 14,
+            availability: true,
+            about: "Dr. Chan is a board-certified Neurologist with over 14 years of experience...",
+            availableTime: [
+                { day: "Monday", start: "10:00 AM", end: "4:00 PM" },
+                { day: "Wednesday", start: "10:00 AM", end: "4:00 PM" }
+            ]
+        },
+         {
+            _id : 5,
+            docImg: "/images/amelia.png",
+            docName: "Dr. Cynthia Chan",
+            department: "Neurology",
+            YOE: 14,
+            availability: true,
+            about: "Dr. Chan is a board-certified Neurologist with over 14 years of experience...",
+            availableTime: [
+                { day: "Monday", start: "10:00 AM", end: "4:00 PM" },
+                { day: "Wednesday", start: "10:00 AM", end: "4:00 PM" }
+            ]
+        },
+    ];
