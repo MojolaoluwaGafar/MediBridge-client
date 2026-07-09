@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import DocProfileModal from "./DocProfileModal";
 import { useDoctors } from "../../../Hooks/Doctors/useDoctors";
 import type { IDoctor } from "../../../types/doctor";
+import type { IDocProfile } from "./DocProfileModal";
 
 export interface ISelectDoc {
   _id: string;
@@ -45,17 +46,13 @@ const Card = ({
           <h1 className="fontOutfit text-lg sm:text-xl font-medium text-[#141313]">
             {docName}
           </h1>
-
           <p className="fontOutfit text-sm sm:text-base font-light text-[#605E5E]">
             {department} Department
           </p>
-
           <p className="text-sm text-[#3E3B3B]">
             {YOE} yrs Exp.{" "}
             <span
-              className={
-                availability ? "text-green-500" : "text-red-500"
-              }
+              className={availability ? "text-green-500" : "text-red-500"}
             >
               {availability ? "Available" : "Unavailable"}
             </span>
@@ -76,9 +73,7 @@ const Card = ({
           onClick={onSelect}
           type="button"
           className={`h-11 w-full rounded-md border border-[#28574E] bg-white text-base font-medium fontOutfit text-[#28574E] hover:bg-[#28574E] hover:text-white ${
-            isSelected
-              ? "hidden"
-              : "flex items-center justify-center"
+            isSelected ? "hidden" : "flex items-center justify-center"
           }`}
         >
           Select Doctor
@@ -95,14 +90,10 @@ export default function StepTwo({
   onSelectDoctor: (doc: IDoctor) => void;
   selectedDepartment: string | null;
 }) {
-  const [selectedDoctor, setSelectedDoctor] =
-    useState<IDoctor | null>(null);
+  const [selectedDoctor, setSelectedDoctor] = useState<IDoctor | null>(null);
+  const [profileDoc, setProfileDoc] = useState<IDocProfile | null>(null);
 
-  const [profileDoc, setProfileDoc] =
-    useState<ISelectDoc | null>(null);
-
-  const { doctors, fetchDoctors, loading, error } =
-    useDoctors();
+  const { doctors, fetchDoctors, loading, error } = useDoctors();
 
   useEffect(() => {
     fetchDoctors();
@@ -111,8 +102,7 @@ export default function StepTwo({
   const filteredDoctors = selectedDepartment
     ? doctors.filter(
         (doc) =>
-          doc.department === selectedDepartment &&
-          doc.availability === true
+          doc.department === selectedDepartment && doc.availability === true
       )
     : doctors;
 
@@ -125,9 +115,7 @@ export default function StepTwo({
 
         <p className="flex flex-wrap items-center gap-1 text-sm sm:text-base text-[#3E3B3B] fontOutfit">
           {selectedDepartment || "All Departments"}
-
           <span className="h-1 w-1 rounded-full bg-[#3E3B3B]"></span>
-
           {filteredDoctors.length} doctors available
         </p>
       </div>
@@ -147,18 +135,21 @@ export default function StepTwo({
                 setSelectedDoctor(doctor);
                 onSelectDoctor(doctor);
               }}
-              onViewProfile={() => setProfileDoc(doctor)}
+              onViewProfile={() =>
+                setProfileDoc({
+                  ...doctor,
+                  _id: doctor._id || "",
+                  about: doctor.about || "No information available",
+                  availableTime: doctor.availableTime || [],
+                  onClose: () => setProfileDoc(null),
+                })
+              }
             />
           ))
         )}
       </div>
 
-      {profileDoc && (
-        <DocProfileModal
-          {...profileDoc}
-          onClose={() => setProfileDoc(null)}
-        />
-      )}
+      {profileDoc && <DocProfileModal {...profileDoc} />}
     </div>
   );
 }

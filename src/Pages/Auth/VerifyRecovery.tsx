@@ -28,14 +28,18 @@ export default function VerifyRecovery() {
         }
     }, [email, navigate]);
     
-    const [timeLeft, setTimeLeft] = useState(
-    expiresAt ? Math.floor((new Date(expiresAt).getTime() - Date.now()) / 1000) : 0);
+    const [timeLeft, setTimeLeft] = useState(0);
     const [expiryTime, setExpiryTime] = useState(expiresAt);
 
     useEffect(() => {
     if (!expiryTime) return;
 
     const expiryTimestamp = new Date(expiryTime).getTime();
+    const remaining = Math.max(
+        0,
+        Math.floor((expiryTimestamp - Date.now()) / 1000)
+    );
+    setTimeLeft(remaining);
 
     const timer = setInterval(() => {
         const remaining = Math.max(

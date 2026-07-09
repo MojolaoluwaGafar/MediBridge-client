@@ -125,7 +125,7 @@ export function useApiQuery<
   useEffect(() => {
     if (!enabled) return;
 
-    void fetchData();
+    void fetchData(...([] as unknown as TArgs));
   }, [enabled, fetchData]);
 
   const reset = useCallback(() => {

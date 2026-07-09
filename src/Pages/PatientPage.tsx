@@ -1,4 +1,4 @@
-import UnderConstruction from "../Components/UnderConstruction"
+// import UnderConstruction from "../Components/UnderConstruction"
 import PagenotReady from "../Components/PatientPageComponents/PagenotReady"
 import { useState } from "react";
 import { useNavigate } from "react-router";
@@ -6,7 +6,7 @@ import { useNavigate } from "react-router";
 import Footer from "../Components/Footer";
 import Dashboard from "../Components/PatientPageComponents/DashBoard/Dashboard";
 import Appointments from "../Components/PatientPageComponents/Appointments/Appointments";
-import Department from "../Components/PatientPageComponents/DashBoard/Dashboard";
+// import Department from "../Components/PatientPageComponents/DashBoard/Dashboard";
 import LogoutModal from "../Components/LogoutModal";
 
 import Sidebar from "../Components/PatientPageComponents/SideBar";

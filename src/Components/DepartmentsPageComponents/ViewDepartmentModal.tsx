@@ -3,7 +3,6 @@ import Button from '../Button'
 import { Check } from "lucide-react"
 
 export default function ViewDepartmentModal({ 
-    _id,
     icon : Icon, 
     field, 
     image, 

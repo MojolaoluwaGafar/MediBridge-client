@@ -46,11 +46,14 @@ export default function Dashboard() {
             setDelayedLoading(true);
         }, 150);
     } else {
-        setDelayedLoading(false);
+        clearTimeout(timer);
     }
 
     return () => {
-        if (timer) clearTimeout(timer);
+        if (timer) {
+            clearTimeout(timer);
+            setDelayedLoading(false);
+        }
     };
     }, [loading]);
 

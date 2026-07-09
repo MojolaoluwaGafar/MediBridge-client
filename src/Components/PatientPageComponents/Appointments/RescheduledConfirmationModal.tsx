@@ -10,7 +10,7 @@ type Props = {
   onViewAppointment: ()=> void;
 }
 
-export default function RescheduledConfirmationModal({ docName, day, time, onClose, onMessageDoctor, onViewAppointment }: Props) {
+export default function RescheduledConfirmationModal({ docName, day, time, onMessageDoctor, onViewAppointment }: Props) {
   return (
     <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center">
       <div className="bg-white rounded-lg p-6 w-100 text-center">
