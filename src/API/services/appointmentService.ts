@@ -4,6 +4,8 @@ import type {
   IBookAppointmentPayload,
   IBookAppointmentRes,
   IGetAppointmentsRes,
+  IRescheduleAppointmentPayload,
+  IRescheduleAppointmentRes
 } from "../../types/apiReqRes";
 
 export const appointmentService = {
@@ -26,20 +28,20 @@ export const appointmentService = {
     return data;
   },
 
-  // async cancelAppointment(id: string) {
-  //   const { data } = await api.patch(
-  //     `/api/appointments/${id}/cancel`
-  //   );
-  //
-  //   return data;
-  // },
+  async cancelAppointment(id: string) {
+    const { data } = await api.patch(
+      `/api/appointment/${id}/cancel`
+    );
+  
+    return data;
+  },
 
-  // async rescheduleAppointment(payload: IRescheduleAppointmentPayload) {
-  //   const { data } = await api.patch<IRescheduleAppointmentRes>(
-  //     `/api/appointments/${payload.id}/reschedule`,
-  //     payload
-  //   );
-  //
-  //   return data;
-  // },
+  async rescheduleAppointment(payload: IRescheduleAppointmentPayload) {
+    const { data } = await api.patch<IRescheduleAppointmentRes>(
+      `/api/appointment/${payload.id}/reschedule`,
+      payload
+    );
+  
+    return data;
+  },
 };

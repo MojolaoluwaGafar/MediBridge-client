@@ -168,12 +168,12 @@ export default function VerifyActivation() {
 
   return (
     <RegisterLayout heading='Securing your healthcare journey.' subHeading='We use multi-factor authentication to ensure your  medical records and personal data remain private and protected at every step.' image={Frame}>
-    <form onSubmit={handleSubmit(submit)} className='border border-[#D1D5D5] rounded-xl  w-full p-8 fontOutfit'>
-        <div className='flex items-center justify-between'>
+    <form onSubmit={handleSubmit(submit)} className='border border-[#D1D5D5] rounded-xl my-4 lg:my-0 w-full p-8 fontOutfit'>
+        <div className='flex flex-col lg:flex-row gap-2 items-center justify-between'>
             <p className='flex items-center gap-2 text-[#28574E]'><span className='h-8 w-8 rounded-full flex items-center justify-center bg-[#28574E] text-white'>1</span> Identity</p>
-            <span className='bg-[#28574E] w-[45.5px] h-0.5'></span>
+            <span className='bg-[#28574E] w-full lg:w-[45.5px] h-0.5'></span>
             <p className='flex items-center gap-2 text-[#28574E]'><span className='h-8 w-8 rounded-full flex items-center justify-center bg-[#28574E] text-white'>2</span> OTP</p>
-            <span className='bg-[#E1E3E3] w-[45.5px] h-0.5'></span>
+            <span className='bg-[#E1E3E3] w-full lg:w-[45.5px] h-0.5'></span>
             <p className='flex items-center gap-2'><span className='h-8 w-8 rounded-full flex items-center justify-center bg-[#E1E3E3] text-[#3E3B3B]'>3</span> Set Up</p>
         </div>
         <h1 className="text-[28px] font-semibold pt-5">Verify your account</h1>

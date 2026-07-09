@@ -10,7 +10,7 @@ import type { IDoctor } from './types/doctor';
 
 export const departments : IDepCard[] = [
   {
-    id: 1,
+    _id: "1",
     icon: Heart,
     iconBgColor: "#FFF4F3",
     iconColor: "#FC0707",
@@ -20,7 +20,7 @@ export const departments : IDepCard[] = [
     summary: "Heart and cardiovascular care. Specialized diagnostics and treatment for heart health."
   },
   {
-    id: 2,
+    _id: "2",
     icon: Brain,
     iconBgColor: "#E0E7FF",
     iconColor: "#4338CA",
@@ -30,7 +30,7 @@ export const departments : IDepCard[] = [
     summary: "Brain and nervous system care. Advanced neurological assessment and management."
   },
   {
-    id: 3,
+    _id: "3",
     icon: Baby,
     iconBgColor: "#FEF9C3",
     iconColor: "#CA8A04",
@@ -40,7 +40,7 @@ export const departments : IDepCard[] = [
     summary: "Healthcare for children and adolescents. Compassionate care for our youngest patients."
   },
   {
-    id: 4,
+    _id: "4",
     icon: function ToothIcon() {
       return <img src={Tooth} alt="Dentistry" />;
     },
@@ -52,7 +52,7 @@ export const departments : IDepCard[] = [
     summary: "Dental care and oral health. Routine checkups and specialized dental procedures."
   },
   {
-    id: 5,
+    _id: "5",
     icon: Eye,
     iconBgColor: "#F0FDF4",
     iconColor: "#16A34A",
@@ -62,7 +62,7 @@ export const departments : IDepCard[] = [
     summary: "Diagnosis and treatment of eye and vision problems."
   },
   {
-    id: 6,
+    _id: "6",
     icon: Bone,
     iconBgColor: "#FFF7ED",
     iconColor: "#EA580C",
@@ -72,7 +72,7 @@ export const departments : IDepCard[] = [
     summary: "Bones, joints, and mobility care. Advanced orthopedic surgery and rehabilitation."
   },
   {
-    id: 7,
+    _id: "7",
     icon: Venus,
     iconBgColor: "#FDF2F8",
     iconColor: "#DB2777",
@@ -82,7 +82,7 @@ export const departments : IDepCard[] = [
     summary: "Women’s reproductive health and pregnancy care."
   },
   {
-    id: 8,
+    _id: "8",
     icon: function FirstAidIcon() {
       return <img src={firstAid} alt="General Practice" />;
     },
@@ -94,7 +94,7 @@ export const departments : IDepCard[] = [
     summary: "Primary and preventive care. Your first point of contact for total health management."
   },
   {
-    id: 9,
+    _id: "9",
     icon: function MentalHealthIcon() {
       return <img src={icon} alt="Mental Health" />;
     },
@@ -110,7 +110,7 @@ export const departments : IDepCard[] = [
 
 export const departmentDetails : ViewDeparmentModal[] = [
   {
-    id: 1,
+    _id: "1",
     icon: Heart,
     field: "Cardiology",
     image: CardiologyImg,
@@ -118,7 +118,7 @@ export const departmentDetails : ViewDeparmentModal[] = [
     services: ["ECG", "Echocardiogram", "Stress Test", "Cardiac Catheterization"]
   },
   {
-    id: 2,
+    _id: "2",
     icon: Brain,
     field: "Neurology",
     image: NeurologyImg,
@@ -126,7 +126,7 @@ export const departmentDetails : ViewDeparmentModal[] = [
     services: ["EEG", "MRI Scan", "Stroke Management", "Epilepsy Treatment"]
   },
   {
-    id: 3,
+    _id: "3",
     icon: Activity,
     field: "General Surgery",
     image: "/images/surgery.jpg",
@@ -134,7 +134,7 @@ export const departmentDetails : ViewDeparmentModal[] = [
     services: ["Appendectomy", "Gallbladder Removal", "Hernia Repair", "Biopsies"]
   },
   {
-    id: 4,
+    _id: "4",
     icon: Baby,
     field: "Pediatrics",
     image: "/images/pediatrics.jpg",
@@ -142,7 +142,7 @@ export const departmentDetails : ViewDeparmentModal[] = [
     services: ["Child Wellness Checkups", "Vaccinations", "Growth Monitoring", "Nutritional Counseling"]
   },
   {
-    id: 5,
+    _id: "5",
     icon: Stethoscope,
     field: "Diagnostics",
     image: "/images/diagnostics.jpg",
@@ -154,7 +154,7 @@ export const departmentDetails : ViewDeparmentModal[] = [
 
 export const doctors: IDoctor[] = [
         {
-            _id : 1,
+            _id : "1",
             docImg: "/images/amelia.png",
             docName: "Dr. Amelia Chen",
             department: "Cardiology",
@@ -167,7 +167,7 @@ export const doctors: IDoctor[] = [
             ]
         },
         {
-            _id : 2,
+            _id : "2",
             docImg: "/images/blessing.png",
             docName: "Dr. Blessing Friday",
             department: "Pediatrics",
@@ -180,7 +180,7 @@ export const doctors: IDoctor[] = [
             ]
         },
         {
-            _id : 3,
+            _id : "3",
             docImg: "/images/blessing.png",
             docName: "Dr. West.",
             department: "Pediatrics",
@@ -193,7 +193,7 @@ export const doctors: IDoctor[] = [
             ]
         },
         {
-            _id : 4,
+            _id : "4",
             docImg: "/images/amelia.png",
             docName: "Dr. Angela Chan",
             department: "Neurology",
@@ -206,7 +206,7 @@ export const doctors: IDoctor[] = [
             ]
         },
          {
-            _id : 5,
+            _id : "5",
             docImg: "/images/amelia.png",
             docName: "Dr. Cynthia Chan",
             department: "Neurology",

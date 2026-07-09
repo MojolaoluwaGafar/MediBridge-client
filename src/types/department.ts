@@ -1,25 +1,42 @@
-import type { ComponentType } from "react";
+import type { ElementType } from "react";
 
 export interface IDepCard {
-  id : number ,
-  icon? : ComponentType<any>,
-  iconBgColor?: string,
-  iconColor? : string,
-  availableSpecialist? : number,
-  field : string,
-  category  : string,
-  summary : string,
-  onView? : ()=> void, 
+  _id: string;
+  field: string;
+  category: string;
+  summary: string;
+  availableSpecialist: number;
+  icon: ElementType;
+  iconBgColor: string;
+  iconColor: string;
+  onView?: () => void;
 }
 
 export interface ViewDeparmentModal {
-  id : number,
-  icon : ComponentType<any>,
-  field : string,
-  image : string,
-  overview : string,
-  services : string[],
-  category?: string,
-  summary?: string
+  _id: string;
+  field: string;
+  icon: ElementType;
+  image?: string;
+  overview?: string;
+  services?: string[];
 }
 
+export interface IDepartment {
+  _id: string;
+  field: string;
+  category: string;
+  summary: string;
+  availableSpecialist: number;
+  icon: string;
+  iconBgColor: string;
+  iconColor: string;
+
+  details?: {
+    overview?: string;
+    services?: string[];
+    image?: string;
+  };
+
+  createdAt?: string;
+  updatedAt?: string;
+}

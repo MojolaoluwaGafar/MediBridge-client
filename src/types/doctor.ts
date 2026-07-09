@@ -1,5 +1,5 @@
 export interface IDoctor {
-    _id?: string ;
+    _id?: string;
     docImg: string;
     docName: string;
     department: string;

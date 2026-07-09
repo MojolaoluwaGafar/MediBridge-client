@@ -2,34 +2,41 @@ import { CalendarX } from "lucide-react";
 import Button from "../../Button";
 
 type Props = {
-  onBookAppointment: () => void;
+  title: string;
+  description: string;
+  buttonText?: string;
+  showButton?: boolean;
+  onButtonClick?: () => void;
 };
 
 export default function EmptyAppointmentState({
-  onBookAppointment,
+  title,
+  description,
+  buttonText = "Book Appointment",
+  showButton = true,
+  onButtonClick,
 }: Props) {
   return (
-    <div className="w-full rounded-xl border border-[#D7D7D7] flex flex-col items-center justify-center gap-2 py-4 h-[320px]">
-      <span className="bg-[#EBEAEA] h-16.25 w-19.25 rounded-md flex items-center justify-center">
+    <div className="w-full h-80 rounded-xl border mx-auto lg:m-0 border-[#D7D7D7] flex flex-col items-center justify-center gap-3 px-6 text-center">
+      <span className="bg-[#EBEAEA] h-16 w-16 rounded-md flex items-center justify-center">
         <CalendarX size={35} />
       </span>
 
-      <p className="text-[20px] font-medium pt-4">
-        No upcoming appointments
+      <h2 className="text-[20px] font-medium">{title}</h2>
+
+      <p className="max-w-md text-[14px] text-[#666666]">
+        {description}
       </p>
 
-      <p className="px-5 text-center text-[14px] text-[#666666]">
-        You don’t have any scheduled hospital visits yet.
-        Once you book an appointment, it will appear here.
-      </p>
-
-      <Button
-        type="button"
-        className="mt-4"
-        width="w-[194px]"
-        content="Book Appointment"
-        onClick={onBookAppointment}
-      />
+      {showButton && onButtonClick && (
+        <Button
+          type="button"
+          className="mt-4"
+          width="w-[194px]"
+          content={buttonText}
+          onClick={onButtonClick}
+        />
+      )}
     </div>
   );
 }

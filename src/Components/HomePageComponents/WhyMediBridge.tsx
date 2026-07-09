@@ -46,13 +46,13 @@ const cardDetails : ICardAd[] = [
 
 export default function WhyMediBridge() {
   return (
-    <div className='bg-[#F5F5F5] pt-87.5 w-full'>
+    <div className='bg-[#F5F5F5] pt-10 lg:pt-87.5 w-full px-5'>
         <div className='container flex flex-col items-center mx-auto text-center gap-3'>
         <h1 className='text-[18px] text-[#28574E] bg-[#DCF2EE] rounded-[31px] w-45.25 h-10.75 flex items-center justify-center'>Why MediBridge</h1>
         <h1 className='text-[34px] fontLibre'>A calmer way to care for yourself</h1>
-        <p className='text-[#757575] text-[20px] w-119.75'>One platform connecting patients with the right care, exactly when they need it.</p>
+        <p className='text-[#757575] text-[20px] lg:w-119.75'>One platform connecting patients with the right care, exactly when they need it.</p>
         
-        <div className='flex gap-6 mt-8'>
+        <div className='flex flex-col lg:flex lg:flex-row gap-6 mt-8'>
             {cardDetails.map((cardDetails)=>{
             return <Card key={cardDetails.id} {...cardDetails}  />
         })}

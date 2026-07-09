@@ -11,7 +11,7 @@ export default function DepartmentCard({
   onView,
 }: IDepCard) {
   return (
-    <div className="bg-white border border-[#DDDDDD] max-w-73.25 h-91.75 rounded-[20px] px-4 py-3 relative flex flex-col justify-evenly">
+    <div className="bg-white border border-[#DDDDDD] w-full lg:max-w-73.25 h-91.75 rounded-[20px] px-4 py-3 relative flex flex-col justify-evenly">
       <span style={{ color: iconColor, backgroundColor: iconBgColor }} className="p-2 rounded-full w-15 h-15 flex items-center justify-center">
         <Icon size={32} />
       </span>

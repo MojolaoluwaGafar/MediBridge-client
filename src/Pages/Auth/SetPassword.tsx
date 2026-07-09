@@ -56,12 +56,12 @@ export default function SetPassword() {
     
     return (
     <RegisterLayout heading='Secure Your Access' subHeading='Your health data is protected with industry-leading encryption. Step 3 of 3: finalise your security credentials.' image={Image}>
-        <form onSubmit={handleSubmit(submit)} className='border border-[#D1D5D5] rounded-xl w-full p-8'>
-            <div className='flex items-center justify-between'>
+        <form onSubmit={handleSubmit(submit)} className='border border-[#D1D5D5] rounded-xl w-full my-4 lg:my-0 p-8'>
+            <div className='flex flex-col lg:flex-row gap-2 items-center justify-between'>
             <p className='flex items-center gap-2 text-[#28574E]'><span className='h-8 w-8 rounded-full flex items-center justify-center bg-[#28574E] text-white'>1</span> Identity</p>
-            <span className='bg-[#28574E] w-[45.5px] h-0.5'></span>
+            <span className='bg-[#28574E] w-full lg:w-[45.5px] h-0.5'></span>
             <p className='flex items-center gap-2 text-[#28574E]'><span className='h-8 w-8 rounded-full flex items-center justify-center bg-[#28574E] text-white'>2</span> OTP</p>
-            <span className='bg-[#E1E3E3] w-[45.5px] h-0.5'></span>
+            <span className='bg-[#E1E3E3] w-full lg:w-[45.5px] h-0.5'></span>
             <p className='flex items-center gap-2 text-[#28574E]'><span className='h-8 w-8 rounded-full flex items-center justify-center bg-[#28574E] text-white'>3</span> Set Up</p>
             </div>
         <h1 className="text-[28px] font-semibold pt-5">Set Up Password</h1>
@@ -69,7 +69,7 @@ export default function SetPassword() {
 
         <label className="text-[18px] font-semibold" htmlFor="newPassword">Password</label>
         <div className='relative'>
-            <Input {...register("password")} id='newPassword' type='password' placeholder='Enter your new password' className='my-2'  />
+            <Input {...register("password")} id='newPassword' type={showPassword ? "text" : "password"} placeholder='Enter your new password' className='my-2'  />
             <button type="button" onClick={togglePassword} 
             className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500">
                 {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
@@ -79,7 +79,7 @@ export default function SetPassword() {
         <label  className="text-[18px] font-semibold" htmlFor="confirmPassword">Confirm Password</label>
 
         <div className='relative'>
-            <Input {...register("confirmPassword")} id='confirmPassword' type='password' placeholder='Confirm your password' className='my-2'  />
+            <Input {...register("confirmPassword")} id='confirmPassword' type={showCPassword ? "text" : "password"} placeholder='Confirm your password' className='my-2'  />
             <button type="button" onClick={toggleCPassword} 
             className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500">
                 {showCPassword ? <EyeOff size={20} /> : <Eye size={20} />}

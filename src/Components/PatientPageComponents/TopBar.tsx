@@ -1,5 +1,5 @@
 import Logo from "../../assets/MediBridgeLogo.svg";
-import { Bell } from "lucide-react";
+import { Bell, Search, Menu } from "lucide-react";
 import { Link } from "react-router";
 import UserMenu from "./UserMenu";
 import type { AuthUser } from "../../Hooks/Auth/useAuth";
@@ -7,64 +7,104 @@ import type { AuthUser } from "../../Hooks/Auth/useAuth";
 type Props = {
   activeTab: string;
   user: AuthUser | null;
-  isOpen: boolean;
-  setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
+
+  isSidebarOpen: boolean;
+  setIsSidebarOpen: React.Dispatch<React.SetStateAction<boolean>>;
+
+  isUserMenuOpen: boolean;
+  setIsUserMenuOpen: React.Dispatch<React.SetStateAction<boolean>>;
+
   onLogout: () => void;
 };
 
 export default function Topbar({
   activeTab,
   user,
-  isOpen,
-  setIsOpen,
+  isSidebarOpen,
+  setIsSidebarOpen,
+  isUserMenuOpen,
+  setIsUserMenuOpen,
   onLogout,
 }: Props) {
   const renderTitle = () => {
     switch (activeTab) {
       case "dashboard":
         return (
-          <p className="text-[28px] font-medium fontOutfit">
+          <p className="text-xl sm:text-2xl lg:text-[28px] font-medium fontOutfit">
             Dashboard
           </p>
         );
 
       case "settings":
-        return <p>Manage your account settings.</p>;
+        return (
+          <p className="text-base sm:text-lg">
+            Manage your account settings.
+          </p>
+        );
 
       default:
         return (
-          <input
-            placeholder="Search condition, department..."
-            className="border rounded-lg px-4 py-2 w-96"
-          />
+          <div className="relative w-full max-w-md lg:max-w-xl">
+            <span className="absolute left-3 top-1/2 -translate-y-1/2">
+              <Search color="#605E5E" size={18} />
+            </span>
+
+            <input
+              placeholder="Search condition, department..."
+              className="h-11 w-full rounded-lg border border-[#E7E4E4] pl-10 pr-4 text-sm focus:outline-none"
+            />
+          </div>
         );
     }
   };
 
   return (
-    <div className="flex border-b border-[#E6EFF5] p-4 px-10">
-      <div className="w-62.5">
-        <Link to="/">
-          <img src={Logo} alt="logo" />
-        </Link>
-      </div>
+    <header className="border-b border-[#E6EFF5] bg-white">
+      <div className="flex items-center justify-between px-4 py-4 lg:px-6">
 
-      <div className="flex justify-between items-center flex-1 pl-10">
-        {renderTitle()}
+        <div className="flex items-center gap-4">
 
-        <div className="flex items-center gap-5">
-          <span className="w-12 h-12 rounded-full bg-[#F5F7FA] flex items-center justify-center">
-            <Bell />
+          <button
+            type="button"
+            onClick={() => setIsSidebarOpen(!isSidebarOpen)}
+            className="lg:hidden rounded-md p-2 hover:bg-gray-100"
+          >
+            <Menu size={26} />
+          </button>
+
+          <Link to="/">
+            <img
+              className="w-36 sm:w-44 lg:w-52"
+              src={Logo}
+              alt="MediBridge logo"
+            />
+          </Link>
+
+        </div>
+
+        <div className="hidden flex-1 justify-center px-8 lg:flex">
+          {renderTitle()}
+        </div>
+
+        <div className="flex items-center gap-3 lg:gap-5">
+
+          <span className="flex h-10 w-10 items-center justify-center rounded-full bg-[#F5F7FA] lg:h-12 lg:w-12">
+            <Bell size={20} />
           </span>
 
           <UserMenu
             user={user}
-            isOpen={isOpen}
-            setIsOpen={setIsOpen}
+            isOpen={isUserMenuOpen}
+            setIsOpen={setIsUserMenuOpen}
             onLogout={onLogout}
           />
+
         </div>
       </div>
-    </div>
+
+      <div className="px-4 pb-4 lg:hidden">
+        {renderTitle()}
+      </div>
+    </header>
   );
 }

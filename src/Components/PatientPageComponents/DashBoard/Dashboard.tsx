@@ -1,8 +1,9 @@
-import { useState, useEffect, useCallback, useMemo } from "react";
+import { useState, useEffect, useMemo } from "react";
 
 import { useAuth } from "../../../Hooks/Auth/useAuth";
 import { useAppointments } from "../../../Hooks/Appointments/useAppointments";
 import { useActivities } from "../../../Hooks/Activities/useActivities";
+import { useAppointmentModals } from "../../../Hooks/Appointments/useAppointmentModals";
 
 import DashboardGreeting from "./DashboardGreeting";
 import UpcomingAppointment from "./UpcomingAppointment";
@@ -10,15 +11,11 @@ import QuickActions from "./QuickActions";
 import RecentActivities from "./RecentActivities";
 import BookAppointmentModal from "./BookAppointmentModal";
 import ViewAppointmentModal from "./ViewAppointmentModal";
-
-import type { IAppointment } from "../../../types/appointment";
+import Reschedule from "../Appointments/Reschedule";
 
 export default function Dashboard() {
     const [showBooking, setShowBooking] = useState(false);
-    const [selectedAppointment, setSelectedAppointment] =
-        useState<IAppointment | null>(null);
     const [delayedLoading, setDelayedLoading] = useState<boolean>(false);
-
     const { user } = useAuth();
 
     const {
@@ -27,6 +24,15 @@ export default function Dashboard() {
         error,
         fetchAppointments
     } = useAppointments();
+
+    const {
+    selectedAppointment,
+    setSelectedAppointment,
+    appointmentToReschedule,
+    setAppointmentToReschedule,
+    handleView,
+    handleReschedule,
+    } = useAppointmentModals();
 
     const {
         activities,
@@ -48,65 +54,66 @@ export default function Dashboard() {
     };
     }, [loading]);
 
-    const upcomingAppointment = useMemo(
-        () => appointments[0] ?? null,
-        [appointments]
-    );
+    const upcomingAppointments = useMemo(() =>
+        appointments.filter((appointment) => {
+            const status = appointment.status.toLowerCase();
 
-    const handleView = useCallback(
-        (appointment: IAppointment) => {
-            setSelectedAppointment(appointment);
-        },
-        []
-    );
+        return status === "confirmed" || status === "upcoming";
+    }),
+    [appointments]);
+
+    const upcomingAppointment = upcomingAppointments[0] ?? null;
 
     return (
-        <div className="w-full">
+    <div className="w-full px-4 md:px-0">
+      {selectedAppointment && (
+        <ViewAppointmentModal
+          appointment={selectedAppointment}
+          onClose={() => setSelectedAppointment(null)}
+        />
+      )}
 
-            {selectedAppointment && (
-                <ViewAppointmentModal
-                    appointment={selectedAppointment}
-                    onClose={() =>
-                        setSelectedAppointment(null)
-                    }
-                />
-            )}
+      {showBooking && (
+        <BookAppointmentModal
+          onClose={() => setShowBooking(false)}
+          onBooked={fetchAppointments}
+        />
+      )}
 
-            {showBooking && (
-                <BookAppointmentModal
-                    onClose={() => setShowBooking(false)}
-                    onBooked={fetchAppointments}
-                />
-            )}
+      {appointmentToReschedule && (
+        <Reschedule
+          appointment={appointmentToReschedule}
+          onClose={() => setAppointmentToReschedule(null)}
+          onRescheduled={async (updatedAppointment) => {
+            setAppointmentToReschedule(null);
+            await fetchAppointments();
+            setSelectedAppointment(updatedAppointment);
+          }}
+        />
+      )}
 
-            <DashboardGreeting user={user}/>
+      <DashboardGreeting user={user} />
 
-            <div className="flex justify-between gap-10 py-8">
+      <div className="flex flex-col w-full lg:flex-row justify-between gap-6 lg:gap-10 py-8">
+        <UpcomingAppointment
+          appointment={upcomingAppointment}
+          loading={delayedLoading}
+          error={error}
+          onBookAppointment={() => setShowBooking(true)}
+          onView={handleView}
+          onReschedule={handleReschedule}
+        />
 
-                <UpcomingAppointment
-                    appointment={upcomingAppointment}
-                    loading={delayedLoading}
-                    error={error}
-                    onBookAppointment={() => setShowBooking(true)}
-                    onView={handleView}
-                />
+        <QuickActions onBookAppointment={() => setShowBooking(true)} />
+      </div>
 
-                <QuickActions
-                    onBookAppointment={() => setShowBooking(true)}
-                />
+      <h2 className="py-3 text-lg md:text-[24px] font-medium fontOutfit">
+        Recent Activities
+      </h2>
 
-            </div>
-
-            <h2 className="py-3 text-[24px] font-medium fontOutfit">
-                Recent Activities
-            </h2>
-
-            <div className="border border-[#D7D7D7] rounded-xl p-4">
-                <RecentActivities
-                    activities={activities}
-                />
-            </div>
-
-        </div>
-    );
+      <div className="border border-[#D7D7D7] rounded-xl p-4">
+        <RecentActivities activities={activities} />
+      </div>
+    </div>
+  )
 }

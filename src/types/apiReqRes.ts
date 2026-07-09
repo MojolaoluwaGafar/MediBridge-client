@@ -1,6 +1,7 @@
 import type { IAppointment } from "./appointment";
 import type { Activity } from "./activity";
 import type { IDoctor } from "./doctor";
+import type { IDepartment } from "./department";
 
 export interface IVerifyUserRes {
   success: boolean;
@@ -89,6 +90,35 @@ export interface IGetAppointmentsRes {
 export interface IActivitiesRes {
   success: boolean;
   activities: Activity[];
+}
+
+export interface IRescheduleAppointmentPayload {
+  id: string;
+  date: string;
+  time: string;
+}
+
+export interface IRescheduleAppointmentRes {
+  success: boolean;
+  message: string;
+  appointment: IAppointment;
+}
+
+export interface IGetDepartmentsRes {
+  departments: IDepartment[];
+}
+
+export interface IGetDepartmentRes {
+  success?: boolean;
+  department: IDepartment;
+}
+
+export interface IAiChatPayload {
+  message: string;
+}
+
+export interface IAiChatResponse {
+  reply: string;
 }
 
 

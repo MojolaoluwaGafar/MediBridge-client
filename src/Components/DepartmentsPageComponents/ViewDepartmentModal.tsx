@@ -3,14 +3,15 @@ import Button from '../Button'
 import { Check } from "lucide-react"
 
 export default function ViewDepartmentModal({ 
-    id,
+    _id,
     icon : Icon, 
     field, 
     image, 
     overview, 
     services,
     onClose,
- }: ViewDeparmentModal & { onClose : ()=> void}) {
+    onBooking
+ }: ViewDeparmentModal & { onClose : ()=> void, onBooking : ()=> void}) {
   return (
     <div className='fixed inset-0 bg-black/50 z-50 flex items-center justify-center h-screen'>
         <div className='w-120 overflow-y-scroll scrollbar-none relative rounded-lg bg-white h-[90%]'>
@@ -34,7 +35,7 @@ export default function ViewDepartmentModal({
 
         <div className='mt-15 flex items-center gap-4'>
             <Button type='button' variant='outline' className='w-45.25' content="Cancel" onClick={onClose} />
-            <Button type='button' variant='primary' className='w-54' content="Book Appointmnet" />
+            <Button type='button' variant='primary' className='w-54' content="Book Appointment" onClick={onBooking} />
         </div>
       </div>
     </div>

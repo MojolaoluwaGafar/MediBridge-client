@@ -12,6 +12,8 @@ type Props = {
   activeTab: string;
   setActiveTab: React.Dispatch<React.SetStateAction<string>>;
   onLogout: () => void;
+  isOpen: boolean;
+  setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
 export default function Sidebar({
@@ -19,34 +21,79 @@ export default function Sidebar({
   activeTab,
   setActiveTab,
   onLogout,
+  isOpen,
+  setIsOpen,
 }: Props) {
   return (
-    <div className="w-62.5 border-r border-r-[#E6EFF5] shadow-lg py-10 px-4 flex flex-col gap-3">
-      {tabs.map((tab) => (
-        <button
-          key={tab.key}
-          type="button"
-          onClick={() => setActiveTab(tab.key)}
-          className={`text-[18px] font-semibold flex gap-2 w-53.5 h-11 items-center pl-5 transition
-          ${
-            activeTab === tab.key
-              ? "bg-[#28574E] text-white rounded-sm"
-              : "text-[#605E5E] hover:bg-gray-100"
-          }`}
-        >
-          {tab.icon}
-          {tab.label}
-        </button>
-      ))}
+    <>
+      {isOpen && (
+        <div
+          className="fixed inset-0 z-40 bg-black/40 lg:hidden"
+          onClick={() => setIsOpen(false)}
+        />
+      )}
 
-      <button
-        type="button"
-        onClick={onLogout}
-        className="text-red-700 flex items-center gap-3 mt-auto pl-5 text-[18px]"
+      <aside
+        className={`
+          fixed top-0 left-0 z-50
+          h-screen w-72
+          bg-white shadow-xl
+          flex flex-col
+          p-6
+          transform transition-transform duration-300
+          ${
+            isOpen ? "translate-x-0" : "-translate-x-full"
+          }
+
+          lg:static
+          lg:translate-x-0
+          lg:h-auto
+          lg:w-72
+          lg:border-r
+          lg:border-[#E6EFF5]
+          lg:shadow-lg
+        `}
       >
-        <PiSignOut size={24} />
-        Log out
-      </button>
-    </div>
+        <nav className="flex flex-col gap-2 flex-1 mt-10 lg:mt-0">
+          {tabs.map((tab) => (
+            <button
+              key={tab.key}
+              type="button"
+              onClick={() => {
+                setActiveTab(tab.key);
+                setIsOpen(false);
+              }}
+              className={`flex items-center gap-3 w-full min-h-[48px] px-4 rounded-md transition text-left
+                ${
+                  activeTab === tab.key
+                    ? "bg-[#28574E] text-white"
+                    : "text-[#605E5E] hover:bg-gray-100"
+                }`}
+            >
+              <span className="flex-shrink-0">{tab.icon}</span>
+
+              <span className="text-sm sm:text-base font-medium">
+                {tab.label}
+              </span>
+            </button>
+          ))}
+        </nav>
+
+        <button
+          type="button"
+          onClick={() => {
+            setIsOpen(false);
+            onLogout();
+          }}
+          className="mt-6 flex items-center gap-3 px-4 py-3 rounded-md text-red-700 hover:bg-red-50 transition"
+        >
+          <PiSignOut size={22} />
+
+          <span className="text-sm sm:text-base font-medium">
+            Log out
+          </span>
+        </button>
+      </aside>
+    </>
   );
 }

@@ -14,6 +14,9 @@ import SupportPage from './Pages/SupportPage'
 import ScrollToTop from './Components/ScrollToTop'
 import PatientPage from './Pages/PatientPage'
 import Error404 from './Components/Error404'
+import ProtectRoute from './Components/ProtectRoute'
+
+import UnderConstruction from "./Components/UnderConstruction"
 
 import { ToastContainer } from "react-toastify"
 import "react-toastify/dist/ReactToastify.css";
@@ -31,11 +34,12 @@ function App() {
       <Route path="/verifyRecovery" element={<VerifyRecovery />} />
       <Route path="/resetPassword" element={<ResetPassword />} />
 
-
       <Route path="/" element={<HomePage />} />
       <Route path="/departments" element={<DepartmentPage />} />
       <Route path="/support" element={<SupportPage />} />
-      <Route path='/patientDashboard' element={<PatientPage />} />
+      <Route path='/patientDashboard' element={<ProtectRoute><PatientPage /></ProtectRoute>} />
+      <Route path="/underConstruction" element={<UnderConstruction />} />
+
       
       <Route path="*" element={<Error404 />} />
 

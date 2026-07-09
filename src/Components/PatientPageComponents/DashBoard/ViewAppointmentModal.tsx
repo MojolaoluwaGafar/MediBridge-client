@@ -1,6 +1,6 @@
 import Button from "../../Button";
 import type { IAppointment } from "../../../types";
-
+import { useNavigate } from "react-router";
 type Props = {
   appointment: IAppointment;
   onClose: () => void;
@@ -17,6 +17,7 @@ export default function ViewAppointmentModal({
   });
 
   const avatar = appointment.doctor.docImg || "/images/default-avatar.png";
+   const navigate = useNavigate()
 
   return (
     <div
@@ -45,7 +46,7 @@ export default function ViewAppointmentModal({
 
         <div className="flex gap-2 mt-3 border-t border-b py-5 border-[#D9D9D9]">
           <img
-            className="w-[69.8px] h-19.25 rounded-[4.01px] object-cover"
+            className="w-[69.8px] h-12.75 rounded-[4.01px] object-cover"
             src={avatar}
             alt={appointment.doctor.docName}
           />
@@ -88,6 +89,9 @@ export default function ViewAppointmentModal({
           <Button
             type="button"
             content="Message Doctor"
+            onClick={()=> {
+              navigate("/UnderConstruction")
+            }}
           />
         </div>
       </div>

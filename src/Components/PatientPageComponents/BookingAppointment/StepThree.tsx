@@ -1,21 +1,30 @@
-import { useState} from 'react'
-import type { IDoctor } from '../../../types/doctor';
+import { useState } from "react";
+import type { IDoctor } from "../../../types/doctor";
 
 type Props = {
-  doctor : IDoctor | null;
-  onSelectDateTime : (date: string,time : string)=> void;
-}
+  doctor: IDoctor | null;
+  onSelectDateTime: (date: string, time: string) => void;
+};
 
-export default function StepThree({doctor, onSelectDateTime}: Props) {
-  const [ selectedTime, setSelectedTime ] = useState<string | null>(null)
-  const [ selectedDate, setSelectedDate ] = useState<string | null>(null);
-  const [ error, setError ] = useState<string | null>(null);
+export default function StepThree({
+  doctor,
+  onSelectDateTime,
+}: Props) {
+  const [selectedTime, setSelectedTime] = useState<string | null>(null);
+  const [selectedDate, setSelectedDate] = useState<string | null>(null);
+  const [error, setError] = useState<string | null>(null);
 
   if (!doctor) {
-    return <p className="text-[#3E3B3B] fontOutfit">Please select a doctor</p>
+    return (
+      <p className="fontOutfit text-[#3E3B3B]">
+        Please select a doctor
+      </p>
+    );
   }
 
-  const handleDateChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleDateChange = (
+    e: React.ChangeEvent<HTMLInputElement>
+  ) => {
     const pickedDate = e.target.value;
     const today = new Date();
     const chosen = new Date(pickedDate);
@@ -32,55 +41,94 @@ export default function StepThree({doctor, onSelectDateTime}: Props) {
   };
 
   const getDayName = (dateStr: string) => {
-    const days = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
+    const days = [
+      "Sunday",
+      "Monday",
+      "Tuesday",
+      "Wednesday",
+      "Thursday",
+      "Friday",
+      "Saturday",
+    ];
+
     return days[new Date(dateStr).getDay()];
   };
 
   const handleTimeClick = (slotLabel: string) => {
     if (!selectedDate || selectedTime) return;
-    setSelectedTime(slotLabel);
-    onSelectDateTime(selectedDate, slotLabel)
-  };  
 
-  const selectedDay = selectedDate ? getDayName(selectedDate) : null;
+    setSelectedTime(slotLabel);
+    onSelectDateTime(selectedDate, slotLabel);
+  };
+
+  const selectedDay = selectedDate
+    ? getDayName(selectedDate)
+    : null;
+
   const matchingSlots = selectedDay
-    ? doctor.availableTime.filter(slot => slot.day === selectedDay)
+    ? doctor.availableTime.filter(
+        (slot) => slot.day === selectedDay
+      )
     : [];
 
   return (
-    <div>
-      <label htmlFor="date" className='text-[18px] fontOutfit font-medium pb-4'>Select a date</label>
-      <input id='date' className='w-118 border border-[#D7D7D7] text-[#606060] text-[16px] px-4 py-2 rounded-md my-2' type="date"
-      onChange={handleDateChange} />
-      {error && <p className="text-red-500 text-sm">{error}</p>}        
-      <h1 className='text-[18px] fontOutfit font-medium pt-4 pb-2'>Time Slot</h1>
-      
-      <div className='grid grid-cols-3'>
+    <div className="w-full">
+      <label
+        htmlFor="date"
+        className="block pb-3 text-base sm:text-lg font-medium fontOutfit"
+      >
+        Select a date
+      </label>
+
+      <input
+        id="date"
+        type="date"
+        onChange={handleDateChange}
+        className="my-2 w-full rounded-md border border-[#D7D7D7] px-4 py-2 text-sm sm:text-base text-[#606060]"
+      />
+
+      {error && (
+        <p className="text-sm text-red-500">
+          {error}
+        </p>
+      )}
+
+      <h1 className="pt-5 pb-3 text-base sm:text-lg font-medium fontOutfit">
+        Time Slot
+      </h1>
+
+      <div className="grid grid-cols-2 gap-3 sm:grid-cols-3">
         {!selectedDate ? (
-          <p className="text-[#3E3B3B] fontOutfit text-sm">Pick a day to see available slots</p>
+          <p className="col-span-full text-sm fontOutfit text-[#3E3B3B]">
+            Pick a day to see available slots
+          </p>
         ) : matchingSlots.length > 0 ? (
           matchingSlots.map((slot, idx) => {
             const timeLabel = `${slot.start}`;
+
             return (
-            <button
-            type='button' key={idx} onClick={() => handleTimeClick(timeLabel)}
-            className={`border border-[#DDDDDD] h-15.5 rounded-lg w-38 font-normal
-              ${selectedTime === timeLabel
-              ? "bg-[#28574E] text-white"
-              : "bg-white text-[#3E3B3B] hover:bg-[#F5F5F5]"}`}
-            >
+              <button
+                key={idx}
+                type="button"
+                onClick={() => handleTimeClick(timeLabel)}
+                className={`h-14 w-full rounded-lg border border-[#DDDDDD] text-sm sm:text-base font-normal transition
+                ${
+                  selectedTime === timeLabel
+                    ? "bg-[#28574E] text-white"
+                    : "bg-white text-[#3E3B3B] hover:bg-[#F5F5F5]"
+                }`}
+              >
                 {timeLabel}
-            </button>
-        );
-      })
+              </button>
+            );
+          })
         ) : (
-      <p className="text-[#3E3B3B] fontOutfit text-sm w-md">Doctor is not available on selected day, please check doctor's profile to confirm doctor's availabilty</p>
-      )}
-    </div>  
-
-      <div>
-
+          <p className="col-span-full text-sm fontOutfit text-[#3E3B3B]">
+            Doctor is not available on the selected day. Please check the
+            doctor's profile to confirm their availability.
+          </p>
+        )}
       </div>
     </div>
-  )
+  );
 }
