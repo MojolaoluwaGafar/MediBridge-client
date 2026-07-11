@@ -36,7 +36,7 @@ function Card({ appointment, onView, onReschedule, onCancel }: AppointmentCardPr
                 <p className="text-[#605E5E] fontOutfit font-light text-[16px]">
                     {doctor.department} Department
                 </p>
-                <div className="flex gap-4 text-[14px] text-[#605E5E]">
+                <div className="flex gap-2 text-[14px] text-[#605E5E]">
                     <p className="flex items-center gap-2">
                         <CalendarDays size={18} color="#605E5E" /> {formattedDate}
                     </p>
@@ -49,14 +49,14 @@ function Card({ appointment, onView, onReschedule, onCancel }: AppointmentCardPr
             <span className="absolute top-3 right-3 bg-[#E0F8F3] text-[#28574E] rounded-3xl h-10 w-26 flex items-center justify-center">
                 {status}
             </span>
-        <div className="flex flex-col lg:flex lg:flex-row w-full items-center gap-5 mt-8 ml-2">
+        <div className="flex flex-col lg:flex lg:flex-row w-full items-center gap-5 mt-8">
             <Button type="button" width="w-full lg:w-[164px]" content="View Details" onClick={() => onView(appointment)} />
               {(normalizedStatus === "confirmed" || normalizedStatus === "upcoming") && (
                 <>
                 <Button type="button" width="w-full lg:w-[164px]" content="Reschedule" variant="outline"
                 onClick={() => onReschedule(appointment)}/>
 
-                {/* <button className="text-[#3E3B3B] fontOutfit font-normal" type="button">Message</button> */}
+                <button className="text-[#3E3B3B] fontOutfit font-normal" type="button">Message</button>
                 
                 <button type="button" className="text-red-600 font-normal" onClick={()=> onCancel(appointment._id)}>Cancel</button>
                 </>

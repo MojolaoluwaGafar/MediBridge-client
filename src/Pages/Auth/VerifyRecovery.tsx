@@ -126,12 +126,15 @@ export default function VerifyRecovery() {
     
     const submit = async (formData : VerifyCodeInput ) => {
             try {
-                const result = await verifyOTP(formData);
+                const result = await verifyOTP({ ...formData, email });
+                if (email) {
+                    localStorage.setItem("resetEmail", email);
+                }
                 console.log("Code request successful:", result);
                 showToast(result.message, "success");
                 reset();
                 setOtp(["", "", "", "", "", ""]);
-                navigate("/resetPassword")
+                navigate("/resetPassword", { state: { email } })
             } catch (err : any) {
                 const message = err.response?.data?.error || err.response?.data?.message || error || "Failed to send OTP"
                 console.error("Code request error error:", message);

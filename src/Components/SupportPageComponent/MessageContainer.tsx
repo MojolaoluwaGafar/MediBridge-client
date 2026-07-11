@@ -29,7 +29,7 @@ export default function MessageContainer() {
 
   return (
     <div className="flex flex-col h-144.75 w-full bg-white border border-[#D1D5D5] rounded-xl shadow-md">
-      <div className="flex-1 overflow-y-auto p-12 space-y-5">
+      <div className="flex-1 overflow-y-auto scrollbar-none p-12 space-y-5">
         {messages.map((msg) => (
           <AiChatBubble
             key={msg.id}

@@ -126,12 +126,15 @@ export default function VerifyActivation() {
 
     const submit = async()=>{
         try {
-            const result = await verifyCode({ code : otp.join("")});
+            const result = await verifyCode({ code : otp.join(""), email });
+            if (email) {
+                localStorage.setItem("activationEmail", email);
+            }
             console.log("Code verification success :", result);
             showToast(result.message || "Code verified successfully", "success");
             reset();
             setOtp(["", "", "", "", "", ""]);
-            navigate("/setPassword")
+            navigate("/setPassword", { state: { email } })
         } catch (err : any) {
             const message = err.response?.data?.error || err.response?.data?.message || error || "Code Verification failed";
             console.error("Code verification error :", message)

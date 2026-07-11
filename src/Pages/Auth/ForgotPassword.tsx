@@ -19,6 +19,7 @@ export default function ForgotPassword() {
         try {
             const result = await codeReq(formData);
             console.log("Code request successful:", result);
+            localStorage.setItem("resetEmail", result.email);
             showToast(result.message, "success");
             reset()
             navigate("/verifyRecovery", { state : {

@@ -2,7 +2,7 @@ import { useState } from 'react'
 import AuthLayout from '../../Layout/AuthLayout'
 import Button from '../../Components/Button'
 import Input from '../../Components/Input'
-import { useNavigate } from 'react-router'
+import { useLocation, useNavigate } from 'react-router'
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { resetPasswordSchema, type ResetPasswordInput } from "../../Validation/ActivationSchema";
@@ -21,12 +21,15 @@ export default function ResetPassword() {
   const { resetPassword, loading, error } = useResetPassword();
 
   const navigate = useNavigate();
+  const location = useLocation();
+  const emailFromState = location.state?.email;
+  const email = emailFromState || localStorage.getItem("resetEmail") || localStorage.getItem("activationEmail") || "";
 
   const submit = async(formData : ResetPasswordInput)=>{
     try {
-      const result = await resetPassword(formData);
+      const result = await resetPassword({ ...formData, email });
       console.log("Password reset successful :", result);
-      localStorage.setItem("authenticationToken", result.token)
+      localStorage.setItem("authToken", result.token)
       showToast(result.message || "Password reset successful", "success");
       reset()
       navigate("/patientDashboard", { state : {
@@ -55,7 +58,7 @@ export default function ResetPassword() {
         <label className="text-[18px] font-semibold" htmlFor="newPassword">New Password</label>
 
         <div className='relative'>
-        <Input {...register("password")} id='newPassword' type='password' placeholder='Enter your new password' className='my-2'  />
+        <Input {...register("password")} id='newPassword' type={showPassword ? "text" : "password"} placeholder='Enter your new password' className='my-2'  />
         <button type="button" onClick={togglePassword} 
         className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500">
         {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}

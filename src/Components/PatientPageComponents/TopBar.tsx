@@ -82,7 +82,7 @@ export default function Topbar({
 
         </div>
 
-        <div className="hidden flex-1 justify-center px-8 lg:flex">
+        <div className="hidden flex-1 justify-start px-8 lg:ml-15 lg:flex">
           {renderTitle()}
         </div>
 

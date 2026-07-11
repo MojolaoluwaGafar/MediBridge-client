@@ -13,6 +13,9 @@ export const verifyCodeSchema = z.object({
     .string()
     .length(6, "Code must be exactly 6 digits")
     .regex(/^\d+$/, "Code must contain only numbers"),
+  email: z.string().email("Invalid email address").optional(),
+  Email: z.string().email("Invalid email address").optional(),
+  UserId: z.string().optional(),
 });
 
 export type VerifyCodeInput = z.infer<typeof verifyCodeSchema>;
@@ -23,7 +26,10 @@ export const setPasswordSchema = z.object({
   confirmPassword: z.string(),
   terms: z.boolean().refine(val => val === true, {
     message: "You must agree to the Terms and Privacy Policy",
-  }),
+  }).optional(),
+  email: z.string().email("Invalid email address").optional(),
+  Email: z.string().email("Invalid email address").optional(),
+  UserId: z.string().optional(),
 }).refine((data) => data.password === data.confirmPassword, {
   message: "Passwords do not match",
   path: ["confirmPassword"],
@@ -50,6 +56,9 @@ export const resetPasswordSchema = z.object({
     .string()
     .min(8, "Password must be at least 8 characters"),
   confirmPassword: z.string(),
+  email: z.string().email("Invalid email address").optional(),
+  Email: z.string().email("Invalid email address").optional(),
+  UserId: z.string().optional(),
 }).refine((data) => data.password === data.confirmPassword, {
   message: "Passwords do not match",
   path: ["confirmPassword"],

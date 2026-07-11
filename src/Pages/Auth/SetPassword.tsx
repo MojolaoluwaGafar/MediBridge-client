@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import RegisterLayout from '../../Layout/RegisterLayout'
 import Input from '../../Components/Input'
-import { Link, useNavigate } from 'react-router'
+import { Link, useLocation, useNavigate } from 'react-router'
 import Button from '../../Components/Button'
 import Image from "../../assets/Frame 2121455033 (1).svg"
 import { useForm } from "react-hook-form";
@@ -22,13 +22,16 @@ export default function SetPassword() {
     const { setPassword, loading, error } = useSetPassword()
     
     const navigate = useNavigate()
+    const location = useLocation()
+    const emailFromState = location.state?.email
+    const email = emailFromState || localStorage.getItem("activationEmail") || localStorage.getItem("resetEmail") || ""
 
     const submit = async(formData : SetPasswordInput)=>{
         try {
-            const result = await setPassword(formData);
+            const result = await setPassword({ ...formData, email });
             console.log("Password set successfully :", result);
             if (result) {
-            localStorage.setItem("authenticationToken", result.token)
+            localStorage.setItem("authToken", result.token)
             localStorage.setItem("user", JSON.stringify(result.user))  
             }
             showToast(result.message || "Password set successfully", "success");

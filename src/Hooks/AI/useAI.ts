@@ -15,12 +15,12 @@ export function useAI() {
   const [messages, setMessages] = useState<ChatMessage[]>([]);
 
   const welcomeMessage = useMemo<ChatMessage | null>(() => {
-    if (!user) return null;
+    const name = user?.firstname || "there";
 
     return {
       id: crypto.randomUUID(),
       sender: "ai",
-      text: `Hi ${user.firstname} 👋 I'm MediBridge AI. I can help with medication questions, appointment preparation, and general health information. What's on your mind today?`,
+      text: `Hi ${name} 👋 I'm MediBridge AI. I can help with medication questions, appointment preparation, and general health information. What's on your mind today?`,
     };
   }, [user]);
 
