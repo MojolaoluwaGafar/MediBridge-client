@@ -33,7 +33,7 @@ export default function Sidebar({
         />
       )}
 
-      <aside
+      <div
         className={`
           fixed top-0 left-0 z-50
           h-screen w-72
@@ -93,7 +93,7 @@ export default function Sidebar({
             Log out
           </span>
         </button>
-      </aside>
+      </div>
     </>
   );
 }

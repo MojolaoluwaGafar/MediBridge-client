@@ -1,6 +1,8 @@
 import axios from "axios";
 import { AxiosError } from "axios";
 
+import { clearAuth } from "../utils/authToken";
+
 const api = axios.create({
   baseURL: import.meta.env.VITE_BASE_URL,
   headers: { "Content-Type": "application/json" },
@@ -22,8 +24,10 @@ api.interceptors.request.use(
 api.interceptors.response.use(
   (response) => response,
   (error) => {
-    if (error.response?.status === 401) {
-      console.error("Unauthorized! Redirecting to login...");
+    const status = error.response?.status;
+    if (status === 401 || status === 403) {
+      clearAuth();
+      window.location.replace("/login");
     }
     return Promise.reject(error);
   }
@@ -31,10 +35,7 @@ api.interceptors.response.use(
 
 export default api;
 
-
 export function isAxiosError(error: unknown): error is AxiosError {
   return (error as AxiosError).isAxiosError === true;
 }
-
-
 

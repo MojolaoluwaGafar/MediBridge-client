@@ -38,6 +38,8 @@ export function AuthProvider({ children }: Props) {
       } catch {
         setUser(null);
       }
+    } else {
+      setUser(null);
     }
   }, []);
 
@@ -81,3 +83,4 @@ export function useAuthContext() {
 
   return context;
 }
+

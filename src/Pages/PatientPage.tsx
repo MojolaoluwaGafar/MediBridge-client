@@ -1,18 +1,18 @@
 // import UnderConstruction from "../Components/UnderConstruction"
-import PagenotReady from "../Components/PatientPageComponents/PagenotReady"
+// import PagenotReady from "../Components/PatientPageComponents/PagenotReady"
 import { useState } from "react";
 import { useNavigate } from "react-router";
 
 import Footer from "../Components/Footer";
 import Dashboard from "../Components/PatientPageComponents/DashBoard/Dashboard";
 import Appointments from "../Components/PatientPageComponents/Appointments/Appointments";
-// import Department from "../Components/PatientPageComponents/DashBoard/Dashboard";
 import LogoutModal from "../Components/LogoutModal";
 
 import Sidebar from "../Components/PatientPageComponents/SideBar";
 import Topbar from "../Components/PatientPageComponents/TopBar";
 import { useAuth } from "../Hooks/Auth/useAuth";
 import { patientTabs } from "../Components/PatientPageComponents/PatientTabs";
+import Department from "../Components/PatientPageComponents/Departments/Department";
 
 export default function PatientPage() {
   const navigate = useNavigate();
@@ -21,6 +21,7 @@ export default function PatientPage() {
 
   const [activeTab, setActiveTab] = useState("dashboard");
   const [showLogoutModal, setShowLogoutModal] = useState(false);
+  const [departmentSearchTerm, setDepartmentSearchTerm] = useState("");
 
   // Sidebar state
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
@@ -42,7 +43,8 @@ export default function PatientPage() {
         return <Appointments />;
 
       case "departments":
-        return <PagenotReady />;
+        return <Department searchTerm={departmentSearchTerm} setSearchTerm={setDepartmentSearchTerm} />
+        // return <PagenotReady />;
 
       // case "medRecords":
       //   return <p>Medical Records</p>;
@@ -73,6 +75,8 @@ export default function PatientPage() {
           isUserMenuOpen={isUserMenuOpen}
           setIsUserMenuOpen={setIsUserMenuOpen}
           onLogout={() => setShowLogoutModal(true)}
+          searchTerm={departmentSearchTerm}
+          setSearchTerm={setDepartmentSearchTerm}
         />
 
         <div className="container mx-auto flex flex-col lg:flex-row px-4 sm:px-6 lg:px-0">
@@ -86,7 +90,7 @@ export default function PatientPage() {
             setIsOpen={setIsSidebarOpen}
           />
 
-          <main className="flex-1 overflow-x-hidden p-4 sm:p-6 md:p-8 lg:p-10">
+          <main className="flex-1 overflow-x-hidden p-4 sm:p-6 md:p-8 lg:p-10 bg-gray-50">
             {renderContent()}
           </main>
 

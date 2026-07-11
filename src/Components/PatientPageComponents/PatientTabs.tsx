@@ -1,7 +1,7 @@
 import {
   LayoutDashboard,
   CalendarDays,
-  // Hospital,
+  Hospital,
   // FileText,
   // MessageCircleMore,
   // Astroid,
@@ -19,11 +19,11 @@ export const patientTabs = [
       label: "Appointments",
       icon: <CalendarDays />,
     },
-    // {
-    //   key: "departments",
-    //   label: "Departments",
-    //   icon: <Hospital />,
-    // },
+    {
+      key: "departments",
+      label: "Departments",
+      icon: <Hospital />,
+    },
     // {
     //   key: "medRecords",
     //   label: "Medical Records",

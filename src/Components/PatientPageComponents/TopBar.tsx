@@ -1,12 +1,15 @@
 import Logo from "../../assets/MediBridgeLogo.svg";
 import { Bell, Search, Menu } from "lucide-react";
 import { Link } from "react-router";
+import { useEffect, useState } from "react";
 import UserMenu from "./UserMenu";
 import type { AuthUser } from "../../Hooks/Auth/useAuth";
 
 type Props = {
   activeTab: string;
   user: AuthUser | null;
+  searchTerm?: string;
+  setSearchTerm?: React.Dispatch<React.SetStateAction<string>>;
 
   isSidebarOpen: boolean;
   setIsSidebarOpen: React.Dispatch<React.SetStateAction<boolean>>;
@@ -25,7 +28,15 @@ export default function Topbar({
   isUserMenuOpen,
   setIsUserMenuOpen,
   onLogout,
+  searchTerm,
+  setSearchTerm,
 }: Props) {
+  const [localSearchTerm, setLocalSearchTerm] = useState(searchTerm ?? "");
+
+  useEffect(() => {
+    setLocalSearchTerm(searchTerm ?? "");
+  }, [searchTerm]);
+
   const renderTitle = () => {
     switch (activeTab) {
       case "dashboard":
@@ -50,6 +61,12 @@ export default function Topbar({
             </span>
 
             <input
+              value={localSearchTerm}
+              onChange={(event) => {
+                const value = event.target.value;
+                setLocalSearchTerm(value);
+                setSearchTerm?.(value);
+              }}
               placeholder="Search condition, department..."
               className="h-11 w-full rounded-lg border border-[#E7E4E4] pl-10 pr-4 text-sm focus:outline-none"
             />
@@ -59,10 +76,10 @@ export default function Topbar({
   };
 
   return (
-    <header className="border-b border-[#E6EFF5] bg-white">
+    <header className="border-b border-[#E6EFF5] bg-white mx-auto container">
       <div className="flex items-center justify-between px-4 py-4 lg:px-6">
 
-        <div className="flex items-center gap-4">
+        <div className="flex items-center gap-4 lg:w-72">
 
           <button
             type="button"
@@ -82,7 +99,8 @@ export default function Topbar({
 
         </div>
 
-        <div className="hidden flex-1 justify-start px-8 lg:ml-15 lg:flex">
+       <div className="flex w-full justify-between items-center">
+         <div className="hidden flex-1 justify-start px-8 lg:ml-10 lg:flex">
           {renderTitle()}
         </div>
 
@@ -100,6 +118,7 @@ export default function Topbar({
           />
 
         </div>
+       </div>
       </div>
 
       <div className="px-4 pb-4 lg:hidden">
