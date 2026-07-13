@@ -8,6 +8,11 @@ const api = axios.create({
   headers: { "Content-Type": "application/json" },
 });
 
+const PublicApi = axios.create({
+  baseURL: import.meta.env.VITE_BASE_URL,
+  headers: { "Content-Type": "application/json" },
+});
+
 api.interceptors.request.use(
   (config) => {
     const token = localStorage.getItem("authToken");
@@ -34,6 +39,7 @@ api.interceptors.response.use(
 );
 
 export default api;
+export { PublicApi };
 
 export function isAxiosError(error: unknown): error is AxiosError {
   return (error as AxiosError).isAxiosError === true;

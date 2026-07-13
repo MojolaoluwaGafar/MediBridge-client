@@ -14,7 +14,7 @@ import type { IDoctor } from '../../../types/doctor'
 
 type Props = {
   onClose: () => void;
-  onBooked: ()=> void;
+  onBooked?: ()=> void;
 }
 
 export default function BookAppointmentModal({ onClose, onBooked }: Props) {
@@ -83,7 +83,7 @@ export default function BookAppointmentModal({ onClose, onBooked }: Props) {
 
     try {
       await bookAppointment(appointmentData);
-      onBooked();
+      onBooked?.();
       console.log("Appointment booked :",appointmentData);
       
       setShowConfirmation(true)

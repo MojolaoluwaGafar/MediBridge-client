@@ -61,7 +61,7 @@ export default function AllDepartments({ searchTerm }: Props) {
     useState<DepartmentWithIcon | null>(null);
 
   const { data, loading } = useDepartments();
-  const { fetchAppointments } = useAppointments();
+  // const { fetchAppointments } = useAppointments();
 
   const departments = useMemo<DepartmentWithIcon[]>(
     () =>
@@ -198,7 +198,6 @@ export default function AllDepartments({ searchTerm }: Props) {
       {showBooking && (
         <BookAppointmentModal
           onClose={() => setShowBooking(false)}
-          onBooked={fetchAppointments}
         />
       )}
     </div>
