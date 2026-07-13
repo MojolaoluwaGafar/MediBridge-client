@@ -17,7 +17,7 @@ const navLinks = [
   { to: "/", label: "Home" },
   { to: "/departments", label: "Departments" },
   { to: "/support", label: "AI Support" },
-  { to: "/underConstruction", label: "About Us" },
+  { to: "/about", label: "About Us" },
 ];
 
 export default function Header({ className, heading, subHeading, others, image }: Props) {

@@ -15,6 +15,7 @@ import ScrollToTop from './Components/ScrollToTop'
 import PatientPage from './Pages/PatientPage'
 import Error404 from './Components/Error404'
 import ProtectRoute from './Components/ProtectRoute'
+import AboutPage from './Pages/AboutPage'
 
 import UnderConstruction from "./Components/UnderConstruction"
 
@@ -38,6 +39,7 @@ function App() {
       <Route path="/departments" element={<DepartmentPage />} />
       <Route path="/support" element={<SupportPage />} />
       <Route path='/patientDashboard' element={<ProtectRoute><PatientPage /></ProtectRoute>} />
+      <Route path="/about" element={<AboutPage />} />
       <Route path="/underConstruction" element={<UnderConstruction />} />
 
       

@@ -1,5 +1,9 @@
 import { useMemo, useState } from "react";
 import {
+  ChevronLeft,
+  ChevronsLeft,
+  ChevronRight,
+  ChevronsRight,
   Heart,
   Brain,
   Eye,
@@ -79,6 +83,7 @@ export default function DisplayDept({ searchTerm, selectedCategory = "All" }: Pr
     return filteredDepartments.slice(start, start + itemsPerPage);
   }, [filteredDepartments, currentPage]);
 
+  // reset page when filters change
   useMemo(() => {
     setCurrentPage(1);
   }, [searchTerm, selectedCategory]);
@@ -95,6 +100,9 @@ export default function DisplayDept({ searchTerm, selectedCategory = "All" }: Pr
     );
   }
 
+  const btnClass =
+    "border border-[#E8E8E8] rounded-md p-1 disabled:opacity-50 disabled:cursor-not-allowed";
+
   return (
     <div>
       <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-5 py-4">
@@ -107,7 +115,7 @@ export default function DisplayDept({ searchTerm, selectedCategory = "All" }: Pr
         ))}
       </div>
 
-      <div className="flex flex-wrap items-center justify-between gap-3 border-t border-[#E6E3E3] pt-4 text-sm text-[#707070]">
+      <div className="flex flex-col md:flex-row items-center justify-between gap-3 border-t border-[#E6E3E3] pt-4 text-sm text-[#707070]">
         <p>
           Showing {filteredDepartments.length === 0 ? 0 : (currentPage - 1) * itemsPerPage + 1}–
           {Math.min(currentPage * itemsPerPage, filteredDepartments.length)} of {filteredDepartments.length}
@@ -115,39 +123,35 @@ export default function DisplayDept({ searchTerm, selectedCategory = "All" }: Pr
 
         <div className="flex items-center gap-2">
           <button
-            type="button"
-            onClick={() => setCurrentPage(1)}
+            className={btnClass}
             disabled={currentPage === 1}
-            className="rounded border border-[#D9D9D9] px-3 py-1 disabled:cursor-not-allowed disabled:opacity-50"
+            onClick={() => setCurrentPage(1)}
           >
-            First
+            <ChevronsLeft />
           </button>
           <button
-            type="button"
-            onClick={() => setCurrentPage((page) => Math.max(1, page - 1))}
+            className={btnClass}
             disabled={currentPage === 1}
-            className="rounded border border-[#D9D9D9] px-3 py-1 disabled:cursor-not-allowed disabled:opacity-50"
+            onClick={() => setCurrentPage((p) => Math.max(1, p - 1))}
           >
-            Prev
+            <ChevronLeft />
           </button>
           <span className="rounded bg-[#28574E] px-3 py-1 text-white">
             {currentPage} / {totalPages}
           </span>
           <button
-            type="button"
-            onClick={() => setCurrentPage((page) => Math.min(totalPages, page + 1))}
+            className={btnClass}
             disabled={currentPage === totalPages}
-            className="rounded border border-[#D9D9D9] px-3 py-1 disabled:cursor-not-allowed disabled:opacity-50"
+            onClick={() => setCurrentPage((p) => Math.min(totalPages, p + 1))}
           >
-            Next
+            <ChevronRight />
           </button>
           <button
-            type="button"
-            onClick={() => setCurrentPage(totalPages)}
+            className={btnClass}
             disabled={currentPage === totalPages}
-            className="rounded border border-[#D9D9D9] px-3 py-1 disabled:cursor-not-allowed disabled:opacity-50"
+            onClick={() => setCurrentPage(totalPages)}
           >
-            Last
+            <ChevronsRight />
           </button>
         </div>
       </div>

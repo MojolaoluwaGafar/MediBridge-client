@@ -86,3 +86,26 @@
 .custom-checkbox:checked {
   color: white;
 }
+
+
+.aboutBg{
+  background-image: url("../src/assets/about-hero-image.jpg");
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+  height: 591px;
+  background-color: #28574ECC;
+}
+
+.aboutBg::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-color: #28574ECC;
+  z-index: 0;
+}
+
+.aboutBg > * {
+  position: relative;
+  z-index: 1;
+}
